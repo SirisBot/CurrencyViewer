@@ -11,7 +11,7 @@ data class Rate(
     @Expose
     val symbol: String,
     @Expose
-    val currencySymbol: String,
+    val currencySymbol: String?,
     @Expose
     val type: String,
     @Expose

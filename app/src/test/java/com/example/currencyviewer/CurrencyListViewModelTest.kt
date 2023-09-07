@@ -5,11 +5,9 @@ import com.example.currencyviewer.network.RatesApiClient
 import com.example.currencyviewer.network.data.Rate
 import com.example.currencyviewer.network.data.RateResponse
 import com.example.currencyviewer.viewmodel.CurrencyListViewModel
-import com.example.currencyviewer.viewmodel.RateApiState
+import com.example.currencyviewer.domain.RateApiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.Test

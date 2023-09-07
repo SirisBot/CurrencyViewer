@@ -51,8 +51,12 @@ android {
 }
 
 dependencies {
-
+    val navVersion = "2.6.0"
     val ktorVersion = "1.6.8"
+
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
@@ -68,6 +72,14 @@ dependencies {
     implementation ("io.ktor:ktor-client-serialization:$ktorVersion")
     implementation ("io.ktor:ktor-client-logging:$ktorVersion")
     implementation ("io.ktor:ktor-client-gson:$ktorVersion")
+
+//    implementation("androidx.navigation:navigation-fragment:$navVersion")
+//    implementation("androidx.navigation:navigation-ui:$navVersion")
+    implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:$navVersion")
+    implementation("androidx.navigation:navigation-compose:$navVersion")
+//    implementation("androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion")
 
     //test dependencies
     testImplementation("junit:junit:4.13.2")
