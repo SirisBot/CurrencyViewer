@@ -2,6 +2,8 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -31,11 +33,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -47,6 +49,10 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+    // Allow references to generated code
+    kapt {
+        correctErrorTypes = true
     }
 }
 
@@ -73,13 +79,13 @@ dependencies {
     implementation ("io.ktor:ktor-client-logging:$ktorVersion")
     implementation ("io.ktor:ktor-client-gson:$ktorVersion")
 
-//    implementation("androidx.navigation:navigation-fragment:$navVersion")
-//    implementation("androidx.navigation:navigation-ui:$navVersion")
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
     implementation("androidx.navigation:navigation-dynamic-features-fragment:$navVersion")
     implementation("androidx.navigation:navigation-compose:$navVersion")
-//    implementation("androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion")
+    implementation("com.google.dagger:hilt-android:2.44")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
 
     //test dependencies
     testImplementation("junit:junit:4.13.2")

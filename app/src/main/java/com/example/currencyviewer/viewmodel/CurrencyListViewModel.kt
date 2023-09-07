@@ -12,9 +12,12 @@ import com.example.currencyviewer.network.RatesApiClient
 import com.example.currencyviewer.domain.RateApiState.Error
 import com.example.currencyviewer.domain.RateApiState.Loading
 import com.example.currencyviewer.domain.RateApiState.Success
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CurrencyListViewModel(private val apiClient: RatesApiClient) : ViewModel() {
+@HiltViewModel
+class CurrencyListViewModel @Inject constructor(private val apiClient: RatesApiClient) : ViewModel() {
 
     private var _rateList: MutableLiveData<RateApiState> = MutableLiveData(Loading)
     val rateList: LiveData<RateApiState> = _rateList
@@ -35,20 +38,6 @@ class CurrencyListViewModel(private val apiClient: RatesApiClient) : ViewModel()
         }
     }
 
-    companion object {
 
-        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel> create(
-                modelClass: Class<T>,
-                extras: CreationExtras
-            ): T {
-                return CurrencyListViewModel(
-                    RatesApiClient()
-                ) as T
-            }
-        }
-
-    }
 
 }

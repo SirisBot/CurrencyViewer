@@ -11,8 +11,9 @@ import io.ktor.http.URLBuilder
 import io.ktor.http.takeFrom
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-open class RatesApiClient {
+open class RatesApiClient @Inject constructor() {
 
     private val httpClient = HttpClient {
         install(JsonFeature) {

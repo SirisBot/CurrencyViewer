@@ -23,6 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -33,9 +35,12 @@ import com.example.currencyviewer.domain.RateApiState
 import com.example.currencyviewer.network.RatesApiClient
 import com.example.currencyviewer.network.data.Rate
 import com.example.currencyviewer.ui.theme.CurrencyViewerTheme
+import com.example.currencyviewer.viewmodel.CurrencyDetailViewModel
 import com.example.currencyviewer.viewmodel.CurrencyListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +70,7 @@ fun CurrencyNavHost(
         composable(
             "listview"
         ) {
-            val viewModel = CurrencyListViewModel(apiClient = RatesApiClient())
+            val viewModel: CurrencyListViewModel = hiltViewModel()
             CurrencyListView(navController = navController, viewModel = viewModel)
         }
         composable(
@@ -77,13 +82,9 @@ fun CurrencyNavHost(
                 navArgument("rateUsd") { type = NavType.StringType },
                 navArgument("type") { type = NavType.StringType }
             )
-        ) { backStackEntry ->
-            val id = backStackEntry.arguments?.getString("id") ?: ""
-            val symbol = backStackEntry.arguments?.getString("symbol") ?: ""
-            val currencySymbol = backStackEntry.arguments?.getString("currencySymbol")
-            val rateUsd = backStackEntry.arguments?.getString("rateUsd") ?: ""
-            val type = backStackEntry.arguments?.getString("type") ?: ""
-            CurrencyDetailView(Rate(id, symbol, currencySymbol, rateUsd, type))
+        ) {
+            val viewModel: CurrencyDetailViewModel = hiltViewModel()
+            CurrencyDetailView(viewModel = viewModel)
         }
     }
 }
@@ -100,12 +101,14 @@ fun CurrencyListView(
                     Surface(modifier = Modifier
                         .fillMaxSize()
                         .clickable {
-                            navController.navigate("detailview?" +
-                                    "id=${it.id}," +
-                                    "symbol=${it.symbol}," +
-                                    "currencySymbol=${it.currencySymbol ?: ""}," +
-                                    "rateUsd=${it.rateUsd}," +
-                                    "type=${it.type}")
+                            navController.navigate(
+                                "detailview?" +
+                                        "id=${it.id}," +
+                                        "symbol=${it.symbol}," +
+                                        "currencySymbol=${it.currencySymbol ?: ""}," +
+                                        "rateUsd=${it.rateUsd}," +
+                                        "type=${it.type}"
+                            )
                         }) {
                         CurrencyListItem(rate = it)
                     }
@@ -139,17 +142,19 @@ fun CurrencyListItem(rate: Rate) {
 }
 
 @Composable
-fun CurrencyDetailView(rate: Rate) {
+fun CurrencyDetailView(viewModel: CurrencyDetailViewModel) {
     Column(
-        Modifier.padding(16.dp).fillMaxSize(),
+        Modifier
+            .padding(16.dp)
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = rate.id)
-        Text(text = rate.symbol)
-        Text(text = rate.currencySymbol ?: "N/A")
-        Text(text = rate.rateUsd)
-        Text(text = rate.type)
+        Text(text = viewModel.rateId)
+        Text(text = viewModel.rateSymbol)
+        Text(text = viewModel.rateCurrencySymbol)
+        Text(text = viewModel.rateUsd)
+        Text(text = viewModel.rateType)
     }
 }
 
