@@ -1,4 +1,4 @@
-package com.example.currencyviewer.ui.theme
+package com.example.currencyviewer.application.ui.theme
 
 import android.app.Activity
 import android.os.Build

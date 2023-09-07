@@ -1,4 +1,4 @@
-package com.example.currencyviewer.network.data
+package com.example.currencyviewer.data.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.Expose

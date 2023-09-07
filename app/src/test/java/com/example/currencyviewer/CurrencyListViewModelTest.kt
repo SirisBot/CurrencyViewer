@@ -1,11 +1,10 @@
 package com.example.currencyviewer
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.currencyviewer.network.RatesApiClient
-import com.example.currencyviewer.network.data.Rate
-import com.example.currencyviewer.network.data.RateResponse
-import com.example.currencyviewer.viewmodel.CurrencyListViewModel
-import com.example.currencyviewer.domain.RateApiState
+import com.example.currencyviewer.data.api.RatesApiClient
+import com.example.currencyviewer.data.model.Rate
+import com.example.currencyviewer.data.model.RateResponse
+import com.example.currencyviewer.application.viewmodel.CurrencyListViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest

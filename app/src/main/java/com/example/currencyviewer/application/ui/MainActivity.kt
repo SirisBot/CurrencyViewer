@@ -1,4 +1,4 @@
-package com.example.currencyviewer
+package com.example.currencyviewer.application.ui
 
 import android.os.Bundle
 import android.widget.Toast
@@ -24,19 +24,22 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.currencyviewer.domain.RateApiState
-import com.example.currencyviewer.network.RatesApiClient
-import com.example.currencyviewer.network.data.Rate
-import com.example.currencyviewer.ui.theme.CurrencyViewerTheme
-import com.example.currencyviewer.viewmodel.CurrencyDetailViewModel
-import com.example.currencyviewer.viewmodel.CurrencyListViewModel
+import com.example.currencyviewer.application.ui.theme.CurrencyViewerTheme
+import com.example.currencyviewer.application.viewmodel.CurrencyDetailViewModel
+import com.example.currencyviewer.application.viewmodel.CurrencyListViewModel
+import com.example.currencyviewer.data.api.RatesApiClient
+import com.example.currencyviewer.data.model.Rate
+import com.example.currencyviewer.data.repository.RatesRepositoryImpl
+import com.example.currencyviewer.domain.usecase.GetRatesListUseCase
+import com.example.currencyviewer.domain.usecase.GetRatesListUseCase.ApiResult.Error
+import com.example.currencyviewer.domain.usecase.GetRatesListUseCase.ApiResult.Loading
+import com.example.currencyviewer.domain.usecase.GetRatesListUseCase.ApiResult.Success
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -95,7 +98,7 @@ fun CurrencyListView(
     viewModel: CurrencyListViewModel
 ) {
     when (val uiState = viewModel.rateList.observeAsState().value) {
-        is RateApiState.Success -> {
+        is Success -> {
             LazyColumn {
                 items(uiState.rateList) {
                     Surface(modifier = Modifier
@@ -116,14 +119,14 @@ fun CurrencyListView(
             }
         }
 
-        is RateApiState.Error -> {
+        is Error -> {
             Toast.makeText(
                 LocalContext.current,
                 "No data received from api",
                 Toast.LENGTH_SHORT
             ).show()
         }
-        is RateApiState.Loading -> {
+        is Loading -> {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
             }
@@ -161,5 +164,7 @@ fun CurrencyDetailView(viewModel: CurrencyDetailViewModel) {
 @Preview(showBackground = true)
 @Composable
 fun CurrencyListViewPreview() {
-    CurrencyListView(viewModel = CurrencyListViewModel(RatesApiClient()))
+    CurrencyListView(viewModel = CurrencyListViewModel(GetRatesListUseCase(RatesRepositoryImpl(
+        RatesApiClient()
+    ))))
 }

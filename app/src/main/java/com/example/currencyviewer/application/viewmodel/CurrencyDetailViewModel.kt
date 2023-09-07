@@ -1,4 +1,4 @@
-package com.example.currencyviewer.viewmodel
+package com.example.currencyviewer.application.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
