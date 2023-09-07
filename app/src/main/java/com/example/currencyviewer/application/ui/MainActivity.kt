@@ -141,9 +141,9 @@ fun CurrencyListView(
 @Composable
 fun CurrencyListItem(rate: Rate) {
     Column(Modifier.padding(16.dp)) {
-        Text(text = rate.symbol)
-        Text(text = rate.currencySymbol ?: "N/A")
-        Text(text = rate.rateUsd)
+        Text(text = "Symbol: ${rate.symbol}")
+        Text(text = "CurrencySymbol: ${rate.currencySymbol ?: "N/A"}")
+        Text(text = "Rate in USD: ${rate.rateUsd}")
     }
 }
 
@@ -156,11 +156,11 @@ fun CurrencyDetailView(viewModel: CurrencyDetailViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = viewModel.rateId)
-        Text(text = viewModel.rateSymbol)
-        Text(text = viewModel.rateCurrencySymbol)
-        Text(text = viewModel.rateUsd)
-        Text(text = viewModel.rateType)
+        Text(text = "Id: ${viewModel.rateId}")
+        Text(text = "Symbol: ${viewModel.rateSymbol}")
+        Text(text = "CurrencySymbol: ${viewModel.rateCurrencySymbol}")
+        Text(text = "Rate in USD: ${viewModel.rateUsd}")
+        Text(text = "Type: ${viewModel.rateType}")
     }
 }
 
